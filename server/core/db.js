@@ -43,8 +43,7 @@ module.exports = {
     let sslOptions = null
     if (dbUseSSL && _.isPlainObject(dbConfig) && _.get(WIKI.config.db, 'sslOptions.auto', null) === false) {
       sslOptions = WIKI.config.db.sslOptions
-      // eslint-disable-next-line no-unneeded-ternary
-      sslOptions.rejectUnauthorized = sslOptions.rejectUnauthorized === false ? false : true
+      sslOptions.rejectUnauthorized = sslOptions.rejectUnauthorized !== false
       if (sslOptions.ca && sslOptions.ca.indexOf('-----') !== 0) {
         sslOptions.ca = fs.readFileSync(path.resolve(WIKI.ROOTPATH, sslOptions.ca))
       }
@@ -106,8 +105,14 @@ module.exports = {
 
         if (_.isPlainObject(dbConfig)) {
           dbConfig.appName = 'Wiki.js'
+          _.set(dbConfig, 'options.appName', 'Wiki.js')
+
+          dbConfig.enableArithAbort = true
+          _.set(dbConfig, 'options.enableArithAbort', true)
+
           if (dbUseSSL) {
             dbConfig.encrypt = true
+            _.set(dbConfig, 'options.encrypt', true)
           }
         }
         break
@@ -133,6 +138,14 @@ module.exports = {
           switch (WIKI.config.db.type) {
             case 'postgres':
               await conn.query(`set application_name = 'Wiki.js'`)
+              // -> Set schema if it's not public             
+              if (WIKI.config.db.schema && WIKI.config.db.schema !== 'public') {
+                await conn.query(`set search_path TO ${WIKI.config.db.schema}, public;`)
+              }
+              done()
+              break
+            case 'mysql':
+              await conn.promise().query(`set autocommit = 1`)
               done()
               break
             default:

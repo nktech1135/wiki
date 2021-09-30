@@ -57,7 +57,8 @@ module.exports = {
           results: _.filter(resp.results, r => {
             return WIKI.auth.checkAccess(context.req.user, ['read:pages'], {
               path: r.path,
-              locale: r.locale
+              locale: r.locale,
+              tags: r.tags // Tags are needed since access permissions can be limited by page tags too
             })
           })
         }
@@ -398,6 +399,22 @@ module.exports = {
       }
     },
     /**
+     * CONVERT PAGE
+     */
+    async convert(obj, args, context) {
+      try {
+        await WIKI.models.pages.convertPage({
+          ...args,
+          user: context.req.user
+        })
+        return {
+          responseResult: graphHelper.generateSuccess('Page has been converted.')
+        }
+      } catch (err) {
+        return graphHelper.generateError(err)
+      }
+    },
+    /**
      * MOVE PAGE
      */
     async move(obj, args, context) {
@@ -562,9 +579,25 @@ module.exports = {
       } catch (err) {
         return graphHelper.generateError(err)
       }
+    },
+    /**
+     * Purge history
+     */
+    async purgeHistory (obj, args, context) {
+      try {
+        await WIKI.models.pageHistory.purge(args.olderThan)
+        return {
+          responseResult: graphHelper.generateSuccess('Page history purged successfully.')
+        }
+      } catch (err) {
+        return graphHelper.generateError(err)
+      }
     }
   },
   Page: {
+    async tags (obj) {
+      return WIKI.models.pages.relatedQuery('tags').for(obj.id)
+    }
     // comments(pg) {
     //   return pg.$relatedQuery('comments')
     // }

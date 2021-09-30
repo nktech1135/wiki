@@ -73,7 +73,7 @@
 
             v-card.mb-5(v-if='tags.length > 0')
               .pa-5
-                .overline.teal--text.pb-2(:class='$vuetify.theme.dark ? `text--lighten-3` : ``') Tags
+                .overline.teal--text.pb-2(:class='$vuetify.theme.dark ? `text--lighten-3` : ``') {{$t('common:page.tags')}}
                 v-chip.mr-1.mb-1(
                   label
                   :color='$vuetify.theme.dark ? `teal darken-1` : `teal lighten-5`'
@@ -87,13 +87,14 @@
                   label
                   :color='$vuetify.theme.dark ? `teal darken-1` : `teal lighten-5`'
                   :href='`/t/` + tags.map(t => t.tag).join(`/`)'
+                  :aria-label='$t(`common:page.tagsMatching`)'
                   )
                   v-icon(:color='$vuetify.theme.dark ? `teal lighten-3` : `teal`', size='20') mdi-tag-multiple
 
             v-card.mb-5(v-if='commentsEnabled && commentsPerms.read')
               .pa-5
                 .overline.pb-2.blue-grey--text.d-flex.align-center(:class='$vuetify.theme.dark ? `text--lighten-3` : `text--darken-2`')
-                  span Talk
+                  span {{$t('common:comments.sdTitle')}}
                   //- v-spacer
                   //- v-chip.text-center(
                   //-   v-if='!commentsExternal'
@@ -112,7 +113,7 @@
                     style='flex: 1 1 100%;'
                     small
                     )
-                    span.blue-grey--text(:class='$vuetify.theme.dark ? `text--lighten-1` : `text--darken-2`') View Discussion
+                    span.blue-grey--text(:class='$vuetify.theme.dark ? `text--lighten-1` : `text--darken-2`') {{$t('common:comments.viewDiscussion')}}
                   v-tooltip(right, v-if='commentsPerms.write')
                     template(v-slot:activator='{ on }')
                       v-btn.ml-2(
@@ -121,9 +122,10 @@
                         outlined
                         small
                         :color='$vuetify.theme.dark ? `blue-grey` : `blue-grey darken-2`'
+                        :aria-label='$t(`common:comments.newComment`)'
                         )
                         v-icon(:color='$vuetify.theme.dark ? `blue-grey lighten-1` : `blue-grey darken-2`', dense) mdi-comment-plus
-                    span New Comment
+                    span {{$t('common:comments.newComment')}}
 
             v-card.mb-5
               .pa-5
@@ -132,7 +134,14 @@
                   v-spacer
                   v-tooltip(right, v-if='isAuthenticated')
                     template(v-slot:activator='{ on }')
-                      v-btn.btn-animate-edit(icon, :href='"/h/" + locale + "/" + path', v-on='on', x-small, v-if="hasReadHistoryPermission")
+                      v-btn.btn-animate-edit(
+                        icon
+                        :href='"/h/" + locale + "/" + path'
+                        v-on='on'
+                        x-small
+                        v-if='hasReadHistoryPermission'
+                        :aria-label='$t(`common:header.history`)'
+                        )
                         v-icon(color='indigo', dense) mdi-history
                     span {{$t('common:header.history')}}
                 .body-2.grey--text(:class='$vuetify.theme.dark ? `` : `text--darken-3`') {{ authorName }}
@@ -156,13 +165,13 @@
                 v-spacer
                 v-tooltip(bottom)
                   template(v-slot:activator='{ on }')
-                    v-btn(icon, tile, v-on='on'): v-icon(color='grey') mdi-bookmark
+                    v-btn(icon, tile, v-on='on', :aria-label='$t(`common:page.bookmark`)'): v-icon(color='grey') mdi-bookmark
                   span {{$t('common:page.bookmark')}}
                 v-menu(offset-y, bottom, min-width='300')
                   template(v-slot:activator='{ on: menu }')
                     v-tooltip(bottom)
                       template(v-slot:activator='{ on: tooltip }')
-                        v-btn(icon, tile, v-on='{ ...menu, ...tooltip }'): v-icon(color='grey') mdi-share-variant
+                        v-btn(icon, tile, v-on='{ ...menu, ...tooltip }', :aria-label='$t(`common:page.share`)'): v-icon(color='grey') mdi-share-variant
                       span {{$t('common:page.share')}}
                   social-sharing(
                     :url='pageUrl'
@@ -171,7 +180,7 @@
                   )
                 v-tooltip(bottom)
                   template(v-slot:activator='{ on }')
-                    v-btn(icon, tile, v-on='on', @click='print')
+                    v-btn(icon, tile, v-on='on', @click='print', :aria-label='$t(`common:page.printFormat`)')
                       v-icon(:color='printView ? `primary` : `grey`') mdi-printer
                   span {{$t('common:page.printFormat')}}
                 v-spacer
@@ -198,6 +207,7 @@
                       @click='pageEdit'
                       v-on='onEditActivator'
                       :disabled='!hasWritePagesPermission'
+                      :aria-label='$t(`common:page.editPage`)'
                       )
                       v-icon mdi-pencil
                   v-tooltip(:right='$vuetify.rtl', :left='!$vuetify.rtl', v-if='hasReadHistoryPermission')
@@ -224,6 +234,18 @@
                         )
                         v-icon(size='20') mdi-code-tags
                     span {{$t('common:header.viewSource')}}
+                  v-tooltip(:right='$vuetify.rtl', :left='!$vuetify.rtl', v-if='hasWritePagesPermission')
+                    template(v-slot:activator='{ on }')
+                      v-btn(
+                        fab
+                        small
+                        color='white'
+                        light
+                        v-on='on'
+                        @click='pageConvert'
+                        )
+                        v-icon(size='20') mdi-lightning-bolt
+                    span {{$t('common:header.convert')}}
                   v-tooltip(:right='$vuetify.rtl', :left='!$vuetify.rtl', v-if='hasWritePagesPermission')
                     template(v-slot:activator='{ on }')
                       v-btn(
@@ -288,6 +310,7 @@
         color='primary'
         dark
         :style='upBtnPosition'
+        :aria-label='$t(`common:actions.returnToTop`)'
         )
         v-icon mdi-arrow-up
 </template>
@@ -303,7 +326,7 @@ import _ from 'lodash'
 import ClipboardJS from 'clipboard'
 import Vue from 'vue'
 
-Vue.component('tabset', Tabset)
+Vue.component('Tabset', Tabset)
 
 Prism.plugins.autoloader.languages_path = '/_assets/js/prism/'
 Prism.plugins.NormalizeWhitespace.setDefaults({
@@ -385,6 +408,10 @@ export default {
     authorId: {
       type: Number,
       default: 0
+    },
+    editor: {
+      type: String,
+      default: ''
     },
     isPublished: {
       type: Boolean,
@@ -505,6 +532,7 @@ export default {
     this.$store.set('page/path', this.path)
     this.$store.set('page/tags', this.tags)
     this.$store.set('page/title', this.title)
+    this.$store.set('page/editor', this.editor)
     this.$store.set('page/updatedAt', this.updatedAt)
     if (this.effectivePermissions) {
       this.$store.set('page/effectivePermissions', JSON.parse(Buffer.from(this.effectivePermissions, 'base64').toString()))
@@ -536,11 +564,11 @@ export default {
     if (window.location.hash && window.location.hash.length > 1) {
       if (document.readyState === 'complete') {
         this.$nextTick(() => {
-          this.$vuetify.goTo(window.location.hash, this.scrollOpts)
+          this.$vuetify.goTo(decodeURIComponent(window.location.hash), this.scrollOpts)
         })
       } else {
         window.addEventListener('load', () => {
-          this.$vuetify.goTo(window.location.hash, this.scrollOpts)
+          this.$vuetify.goTo(decodeURIComponent(window.location.hash), this.scrollOpts)
         })
       }
     }
@@ -551,7 +579,7 @@ export default {
         el.onclick = ev => {
           ev.preventDefault()
           ev.stopPropagation()
-          this.$vuetify.goTo(decodeURIComponent(ev.target.hash), this.scrollOpts)
+          this.$vuetify.goTo(decodeURIComponent(ev.currentTarget.hash), this.scrollOpts)
         }
       })
     })
@@ -585,6 +613,9 @@ export default {
     },
     pageSource () {
       this.$root.$emit('pageSource')
+    },
+    pageConvert () {
+      this.$root.$emit('pageConvert')
     },
     pageDuplicate () {
       this.$root.$emit('pageDuplicate')

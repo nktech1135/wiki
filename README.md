@@ -14,19 +14,20 @@
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)  
 [![Chat on Slack](https://img.shields.io/badge/slack-requarks-CC2B5E.svg?style=flat&logo=slack)](https://wiki.requarks.io/slack)
 [![Twitter Follow](https://img.shields.io/badge/follow-%40requarks-blue.svg?style=flat&logo=twitter)](https://twitter.com/requarks)
-[![Subscribe to Newsletter](https://img.shields.io/badge/newsletter-subscribe-yellow.svg?style=flat&logo=mailchimp)](https://wiki.js.org/newsletter)
+[![Reddit](https://img.shields.io/badge/reddit-%2Fr%2Fwikijs-orange?logo=reddit&logoColor=white)](https://www.reddit.com/r/wikijs/)
+[![Subscribe to Newsletter](https://img.shields.io/badge/newsletter-subscribe-yellow.svg?style=flat&logo=mailchimp)](https://blog.js.wiki/subscribe)
 
 ##### A modern, lightweight and powerful wiki app built on NodeJS
 
 </div>
 
-- **[Official Website](https://wiki.js.org/)**
+- **[Official Website](https://js.wiki/)**
 - **[Documentation](https://docs.requarks.io/)**
 - [Requirements](https://docs.requarks.io/install/requirements)
 - [Installation](https://docs.requarks.io/install)
 - [Demo](https://docs.requarks.io/demo)
 - [Change Log](https://docs.requarks.io/releases)
-- [Feature Requests](https://wiki.js.org/feedback)
+- [Feature Requests](https://feedback.js.wiki/wiki)
 - [Chat with us on Slack](https://wiki.requarks.io/slack)
 - [Translations](https://docs.requarks.io/dev/translations) *(We need your help!)*
 - [E2E Testing Results](https://dashboard.cypress.io/projects/r7qxah/runs)
@@ -65,6 +66,11 @@ Support this project by becoming a sponsor. Your name will show up in the Contri
         </a>
       </td>
       <td align="center" valign="middle" width="148">
+        <a href="https://github.com/broxen" target="_blank">
+          Broxen<br />(@broxen)
+        </a>
+      </td>
+      <td align="center" valign="middle" width="148">
         <a href="https://github.com/xDacon" target="_blank">
           Dacon<br />(@xDacon)
         </a>
@@ -75,43 +81,62 @@ Support this project by becoming a sponsor. Your name will show up in the Contri
         </a>
       </td>
       <td align="center" valign="middle" width="148">
+        <a href="https://github.com/JayDaley" target="_blank">
+          Jay Daley<br />(@JayDaley)
+        </a>
+      </td>
+      <td align="center" valign="middle" width="148">
         <a href="https://github.com/idokka" target="_blank">
           Oleksii<br />(@idokka)
         </a>
       </td>
-      <td align="center" valign="middle" width="148">
-        <a href="https://github.com/TheodoreChu" target="_blank">
-          Theodore Chu<br />(@TheodoreChu)
-        </a>
-      </td>
-      <td align="center" valign="middle" width="148">
+      <!--<td align="center" valign="middle" width="148">
         <a href="https://github.com/sponsors/NGPixel" target="_blank">
           <img src="https://static.requarks.io/sponsors/become-148x72.png">
         </a>
-      </td>
+      </td>-->
     </tr>
   </tbody>
 </table>
 </div>
 
 - Akira Suenami ([@a-suenami](https://github.com/a-suenami))
+- Arnaud Marchand ([@snuids](https://github.com/snuids))
 - Bryon Vandiver ([@asterick](https://github.com/asterick))
+- Cameron Steele ([@ATechAdventurer](https://github.com/ATechAdventurer))
+- Cloud Data Hosting LLC ([@CloudDataHostingLLC](https://github.com/CloudDataHostingLLC))
 - CrazyMarvin ([@CrazyMarvin](https://github.com/CrazyMarvin))
+- David Christian Holin ([@SirGibihm](https://github.com/SirGibihm))
 - Dragan Espenschied ([@despens](https://github.com/despens))
 - Elijah Zobenko ([@he110](https://github.com/he110))
 - Ernie ([@iamernie](https://github.com/iamernie))
+- Fabio Ferrari ([@devxops](https://github.com/devxops))
 - Florian Moss ([@florianmoss](https://github.com/florianmoss))
+- HeavenBay ([@HeavenBay](https://github.com/heavenbay))
+- Jaimyn Mayer ([@jabelone](https://github.com/jabelone))
+- Jay Lee ([@polyglotm](https://github.com/polyglotm))
 - Kelly Wardrop ([@dropcoded](https://github.com/dropcoded))
 - Loki ([@binaryloki](https://github.com/binaryloki))
+- Marcilio Leite Neto ([@marclneto](https://github.com/marclneto))
 - Mattias Johnson ([@mattiasJohnson](https://github.com/mattiasJohnson))
+- Mitchell Rowton ([@mrowton](https://github.com/mrowton))
 - M. Scott Ford ([@mscottford](https://github.com/mscottford))
+- Nick Halase ([@nhalase](https://github.com/nhalase))
 - Nina Reynolds ([@cutecycle](https://github.com/cutecycle))
 - Noel Cower ([@nilium](https://github.com/nilium))
+- Philipp Schmitt ([@pschmitt](https://github.com/pschmitt))
 - Robert Lanzke ([@winkelement](https://github.com/winkelement))
 - Sam Martin ([@winkelement](https://github.com/ABitMoreDepth))
+- Sean Coffey ([@seanecoffey](https://github.com/seanecoffey))
+- Theodore Chu ([@TheodoreChu](https://github.com/TheodoreChu))
+- Victor Bilgin ([@vbilgin](https://github.com/vbilgin))
+- VMO Solutions ([@vmosolutions](https://github.com/vmosolutions))
 - aniketpanjwani ([@aniketpanjwani](https://github.com/aniketpanjwani))
 - aytaa ([@aytaa](https://github.com/aytaa))
 - magicpotato ([@fortheday](https://github.com/fortheday))
+- motoacs ([@motoacs](https://github.com/motoacs))
+- scorpion ([@scorpion](https://github.com/scorpion))
+- valantien ([@valantien](https://github.com/valantien))
 
 <h2 align="center">OpenCollective Sponsors</h2>
 
@@ -162,6 +187,48 @@ Support this project by becoming a sponsor. Your logo will show up in the Contri
         <a href="https://opencollective.com/wikijs/sponsor/11/website" target="_blank"><img src="https://opencollective.com/wikijs/sponsor/11/avatar.svg"></a>
       </td>
     </tr>
+    <tr>
+      <td align="center" valign="middle" width="192">
+        <a href="https://opencollective.com/wikijs/sponsor/12/website" target="_blank"><img src="https://opencollective.com/wikijs/sponsor/12/avatar.svg"></a>
+      </td>
+      <td align="center" valign="middle" width="192">
+        <a href="https://opencollective.com/wikijs/sponsor/13/website" target="_blank"><img src="https://opencollective.com/wikijs/sponsor/13/avatar.svg"></a>
+      </td>
+      <td align="center" valign="middle" width="192">
+        <a href="https://opencollective.com/wikijs/sponsor/14/website" target="_blank"><img src="https://opencollective.com/wikijs/sponsor/14/avatar.svg"></a>
+      </td>
+      <td align="center" valign="middle" width="192">
+        <a href="https://opencollective.com/wikijs/sponsor/15/website" target="_blank"><img src="https://opencollective.com/wikijs/sponsor/15/avatar.svg"></a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle" width="192">
+        <a href="https://opencollective.com/wikijs/sponsor/16/website" target="_blank"><img src="https://opencollective.com/wikijs/sponsor/16/avatar.svg"></a>
+      </td>
+      <td align="center" valign="middle" width="192">
+        <a href="https://opencollective.com/wikijs/sponsor/17/website" target="_blank"><img src="https://opencollective.com/wikijs/sponsor/17/avatar.svg"></a>
+      </td>
+      <td align="center" valign="middle" width="192">
+        <a href="https://opencollective.com/wikijs/sponsor/18/website" target="_blank"><img src="https://opencollective.com/wikijs/sponsor/18/avatar.svg"></a>
+      </td>
+      <td align="center" valign="middle" width="192">
+        <a href="https://opencollective.com/wikijs/sponsor/19/website" target="_blank"><img src="https://opencollective.com/wikijs/sponsor/19/avatar.svg"></a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle" width="192">
+        <a href="https://opencollective.com/wikijs/sponsor/20/website" target="_blank"><img src="https://opencollective.com/wikijs/sponsor/20/avatar.svg"></a>
+      </td>
+      <td align="center" valign="middle" width="192">
+        <a href="https://opencollective.com/wikijs/sponsor/21/website" target="_blank"><img src="https://opencollective.com/wikijs/sponsor/21/avatar.svg"></a>
+      </td>
+      <td align="center" valign="middle" width="192">
+        <a href="https://opencollective.com/wikijs/sponsor/22/website" target="_blank"><img src="https://opencollective.com/wikijs/sponsor/22/avatar.svg"></a>
+      </td>
+      <td align="center" valign="middle" width="192">
+        <a href="https://opencollective.com/wikijs/sponsor/23/website" target="_blank"><img src="https://opencollective.com/wikijs/sponsor/23/avatar.svg"></a>
+      </td>
+    </tr>
   </tbody>
 </table>
 </div>
@@ -176,22 +243,32 @@ Thank you to all our patrons! 🙏 [[Become a patron](https://www.patreon.com/re
 - Alex Zen
 - Arti Zirk
 - Brandon Curtis
+- Dave 'Sri' Seah
 - djagoo
 - Douglas Lassance
 - Ernie Reid
 - Etienne
 - Flemis Jurgenheimer
+- Florent
 - Günter Pavlas
+- hong
+- Hope
 - Ian
 - Iskander Callos
 - Josh Stewart
+- Justin Dunsworth
+- Keir
 - Loïc CRAMPON
 - Ludgeir Ibanez
+- Mark Mansur
 - Matt Gedigian
+- Patryk
 - Philipp Schürch
+- Tracey Duffy
 - Richeir
 - SmartNET.works
 - Stepan Sokolovskyi
+- Zach Maynard
 - 张白驹
 <!--5 end-->
 
@@ -214,17 +291,20 @@ This project exists thanks to all the people who contribute. [[Contribute]](http
 ![Browserstack](https://wiki.js.org/legacy/logo_browserstack.png)  
 [Browserstack](https://www.browserstack.com/) for providing access to their great cross-browser testing tools.
 
-![Bugsnag](https://wiki.js.org/legacy/logo-bugsnag.png)  
-[Bugsnag](https://www.bugsnag.com/) for providing error monitoring solutions.
-
 ![Cloudflare](https://wiki.js.org/legacy/logo_cloudflare.png)  
 [Cloudflare](https://www.cloudflare.com/) for providing their great CDN, SSL and advanced networking services.
 
 ![DigitalOcean](https://wiki.js.org/legacy/logo_digitalocean.png)  
 [DigitalOcean](https://m.do.co/c/5f7445bfa4d0) for providing hosting of the Wiki.js documentation site.
 
-![Icons8](https://static.requarks.io/logo/icons8.svg)  
+![Icons8](https://static.requarks.io/logo/icons8-text-h40.png)  
 [Icons8](https://icons8.com/) for providing beautiful icon sets.
+
+![Lokalise](https://static.requarks.io/logo/lokalise-text-h40.png)  
+[Lokalise](https://lokalise.com/) for providing access to their great localization tool.
 
 ![Netlify](https://wiki.js.org/legacy/logo_netlify.png)  
 [Netlify](https://www.netlify.com) for providing hosting for landings and blog websites.
+
+![Porkbun](https://static.requarks.io/logo/porkbun.png)  
+[Porkbun](https://www.porkbun.com) for providing domain registration services.

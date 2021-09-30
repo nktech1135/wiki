@@ -104,6 +104,9 @@ module.exports = {
     await this.ensureDirectory(asset.destinationPath)
     await this.sftp.rename(path.posix.join(this.config.basePath, asset.path), path.posix.join(this.config.basePath, asset.destinationPath))
   },
+  async getLocalLocation () {
+
+  },
   /**
    * HANDLERS
    */
@@ -112,7 +115,7 @@ module.exports = {
 
     // -> Pages
     await pipeline(
-      WIKI.models.knex.column('path', 'localeCode', 'title', 'description', 'contentType', 'content', 'isPublished', 'updatedAt').select().from('pages').where({
+      WIKI.models.knex.column('path', 'localeCode', 'title', 'description', 'contentType', 'content', 'isPublished', 'updatedAt', 'createdAt').select().from('pages').where({
         isPrivate: false
       }).stream(),
       new stream.Transform({
@@ -152,7 +155,12 @@ module.exports = {
         const folderPaths = _.dropRight(filePath.split('/'))
         for (let i = 1; i <= folderPaths.length; i++) {
           const folderSection = _.take(folderPaths, i).join('/')
-          await this.sftp.mkdir(path.posix.join(this.config.basePath, folderSection))
+          const folderDir = path.posix.join(this.config.basePath, folderSection)
+          try {
+            await this.sftp.readdir(folderDir)
+          } catch (err) {
+            await this.sftp.mkdir(folderDir)
+          }
         }
       } catch (err) {}
     }

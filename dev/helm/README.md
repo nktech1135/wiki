@@ -53,6 +53,11 @@ It also optionally packages the [PostgreSQL](https://github.com/kubernetes/chart
 
 To install the chart with the release name `my-release` run the following from this (`helm`) directory:
 
+### Using Helm 3:
+```console
+$ helm install my-release .
+```
+### Using Helm 2:
 ```console
 $ helm install --name my-release . 
 ```
@@ -95,14 +100,18 @@ The following table lists the configurable parameters of the Wiki.js chart and t
 | `tolerations`                    | Toleration labels for wiki.jsk pod assignment    | `[]`                                                       |
 | `ingress.enabled`                    | Enable ingress controller resource          | `false`                                                    |
 | `ingress.annotations`                | Ingress annotations                         | `{}`                                                       |
-| `ingress.hostname`                   | URL to address your Wiki.js installation     | `wiki.local`                                             |
+| `ingress.hosts`                      | List of ingress rules                        | `[{"host": "wiki.local", "paths": ["/"]}]`                |
 | `ingress.tls`                        | Ingress TLS configuration                   | `[]`                                                       |
 | `postgresql.enabled`                 | Deploy postgres server (see below)          | `true`                                                     |
 | `postgresql.postgresqlDatabase`        | Postgres database name                      | `wiki`                                                   |
 | `postgresql.postgresqlUser`            | Postgres username                           | `postgres`                                                   |
 | `postgresql.postgresqlHost`            | External postgres host                      | `nil`                                                      |
 | `postgresql.postgresqlPassword`        | External postgres password                  | `nil`                                                      |
+| `postgresql.existingSecret`            | Provide an existing `Secret` for postgres   | `nil`                                                      |
+| `postgresql.existingSecretKey`          | The postgres password key in the existing `Secret`   | `postgresql-password`                              |
 | `postgresql.postgresqlPort`            | External postgres port                      | `5432`                                                     |
+| `postgresql.ssl`                       | Enable external postgres SSL connection     | `false`                                                   |
+| `postgresql.ca`                        | Certificate of Authority path for postgres  | `nil`                                                     |
 | `postgresql.persistence.enabled`                | Enable postgres persistence using PVC                | `true`                                                     |
 | `postgresql.persistence.existingClaim`          | Provide an existing `PersistentVolumeClaim` for postgres | `nil`                                                      |
 | `postgresql.persistence.storageClass`           | Postgres PVC Storage Class (example: `nfs`)                           | `nil`                 |
@@ -126,7 +135,24 @@ $ helm install --name my-release -f values.yaml .
 
 ## PostgresSQL
 
-By default, PostgreSQL is installed as part of the chart. To use an external PostgreSQL server set `postgresql.enabled` to `false` and then set `postgresql.postgresqlHost` and `postgresql.postgresqlPassword`. The other options (`postgresql.postgresqlDatabase`, `postgresql.postgresqlUser` and `postgresql.postgresqlPort`) may also want changing from their default values.
+By default, PostgreSQL is installed as part of the chart.
+
+### Using an external PostgreSQL server
+
+To use an external PostgreSQL server, set `postgresql.enabled` to `false` and then set `postgresql.postgresqlHost` and `postgresql.postgresqlPassword`. To use an existing `Secret`, set `postgresql.existingSecret`. The other options (`postgresql.postgresqlDatabase`, `postgresql.postgresqlUser`, `postgresql.postgresqlPort` and `postgresql.existingSecretKey`) may also want changing from their default values.
+
+To use an SSL connection you can set `postgresql.ssl` to `true` and if needed the path to a Certificate of Authority can be set using `postgresql.ca` to `/path/to/ca`. Default `postgresql.ssl` value is `false`.
+
+If `postgresql.existingSecret` is not specified, you also need to add the following Helm template to your deployment in order to create the postgresql `Secret`:
+
+```yaml
+kind: Secret
+apiVersion: v1
+metadata:
+  name: {{ template "wiki.postgresql.secret" . }}
+data:
+  {{ template "wiki.postgresql.secretKey" . }}: "{{ .Values.postgresql.postgresqlPassword | b64enc }}"
+```
 
 ## Persistence
 
@@ -135,4 +161,4 @@ See the [Configuration](#configuration) section to configure the PVC or to disab
 
 ## Ingress
 
-This chart provides support for Ingress resource. If you have an available Ingress Controller such as Nginx or Traefik you maybe want to set `ingress.enabled` to true and choose an `ingress.hostname` for the URL. Then, you should be able to access the installation using that address.
+This chart provides support for Ingress resource. If you have an available Ingress Controller such as Nginx or Traefik you maybe want to set `ingress.enabled` to true and add `ingress.hosts` for the URL. Then, you should be able to access the installation using that address.

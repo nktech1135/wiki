@@ -25,8 +25,8 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.image.repository }}:{{ default "latest" .Values.image.tag }}"
+          imagePullPolicy: {{ default "IfNotPresent" .Values.image.imagePullPolicy }}
           env:
             - name: DB_TYPE
               value: postgres
@@ -38,6 +38,10 @@ spec:
               value: {{ default "wiki" .Values.postgresql.postgresqlDatabase }}
             - name: DB_USER
               value: {{ default "wiki" .Values.postgresql.postgresqlUser }}
+            - name: DB_SSL
+              value: "{{ default "false" .Values.postgresql.ssl }}"
+            - name: DB_SSL_CA
+              value: "{{ default "" .Values.postgresql.ca }}"
             - name: DB_PASS
               valueFrom:
                 secretKeyRef:
@@ -47,18 +51,16 @@ spec:
                   name: {{ template "wiki.postgresql.secret" . }}
                 {{- end }}
                   key: {{ template "wiki.postgresql.secretKey" . }}
+            - name: HA
+              value: {{ .Values.replicaCount | int | le 2 | quote }}
           ports:
             - name: http
               containerPort: 3000
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /healthz
-              port: http
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
-            httpGet:
-              path: /healthz
-              port: http
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

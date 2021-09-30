@@ -26,8 +26,8 @@ module.exports = async () => {
   // Load middlewares
   // ----------------------------------------
 
-  var mw = autoload(path.join(WIKI.SERVERPATH, '/middlewares'))
-  var ctrl = autoload(path.join(WIKI.SERVERPATH, '/controllers'))
+  const mw = autoload(path.join(WIKI.SERVERPATH, '/middlewares'))
+  const ctrl = autoload(path.join(WIKI.SERVERPATH, '/controllers'))
 
   // ----------------------------------------
   // Define Express App
@@ -42,8 +42,8 @@ module.exports = async () => {
   // ----------------------------------------
 
   app.use(mw.security)
-  app.use(cors(WIKI.config.cors))
-  app.options('*', cors(WIKI.config.cors))
+  app.use(cors({ origin: false }))
+  app.options('*', cors({ origin: false }))
   if (WIKI.config.security.securityTrustProxy) {
     app.enable('trust proxy')
   }
@@ -169,7 +169,7 @@ module.exports = async () => {
   // ----------------------------------------
 
   app.use((req, res, next) => {
-    var err = new Error('Not Found')
+    const err = new Error('Not Found')
     err.status = 404
     next(err)
   })

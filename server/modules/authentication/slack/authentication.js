@@ -4,7 +4,7 @@
 // Slack Account
 // ------------------------------------
 
-const SlackStrategy = require('@aoberoi/passport-slack').default.Strategy
+const SlackStrategy = require('passport-slack-oauth2').Strategy
 const _ = require('lodash')
 
 module.exports = {
@@ -14,15 +14,17 @@ module.exports = {
         clientID: conf.clientId,
         clientSecret: conf.clientSecret,
         callbackURL: conf.callbackURL,
-        team: conf.team
-      }, async (accessToken, scopes, team, extra, { user: userProfile }, cb) => {
+        team: conf.team,
+        scope: ['identity.basic', 'identity.email', 'identity.avatar'],
+        passReqToCallback: true
+      }, async (req, accessToken, refreshToken, { user: userProfile }, cb) => {
         try {
           const user = await WIKI.models.users.processProfile({
+            providerKey: req.params.strategy,
             profile: {
               ...userProfile,
               picture: _.get(userProfile, 'image_48', '')
-            },
-            providerKey: 'slack'
+            }
           })
           cb(null, user)
         } catch (err) {

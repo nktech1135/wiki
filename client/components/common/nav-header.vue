@@ -15,7 +15,7 @@
         prepend-inner-icon='mdi-magnify'
         :loading='searchIsLoading'
         @keyup.enter='searchEnter'
-        autocomplete='off'
+        autocomplete='none'
       )
     v-layout(row)
       v-flex(xs5, md4)
@@ -68,11 +68,11 @@
                 @blur='searchBlur'
                 @keyup.down='searchMove(`down`)'
                 @keyup.up='searchMove(`up`)'
-                autocomplete='off'
+                autocomplete='none'
               )
             v-tooltip(bottom)
               template(v-slot:activator='{ on }')
-                v-btn.ml-2.mr-0(icon, v-on='on', href='/t')
+                v-btn.ml-2.mr-0(icon, v-on='on', href='/t', :aria-label='$t(`common:header.browseTags`)')
                   v-icon(color='grey') mdi-tag-multiple
               span {{$t('common:header.browseTags')}}
       v-flex(xs7, md4)
@@ -96,10 +96,18 @@
 
           template(v-if='mode === `view` && locales.length > 0')
             v-menu(offset-y, bottom, transition='slide-y-transition', max-height='320px', min-width='210px', left)
-              template(v-slot:activator='{ on: menu }')
+              template(v-slot:activator='{ on: menu, attrs }')
                 v-tooltip(bottom)
                   template(v-slot:activator='{ on: tooltip }')
-                    v-btn(icon, v-on='{ ...menu, ...tooltip }', :class='$vuetify.rtl ? `ml-3` : ``', tile, height='64')
+                    v-btn(
+                      icon
+                      v-bind='attrs'
+                      v-on='{ ...menu, ...tooltip }'
+                      :class='$vuetify.rtl ? `ml-3` : ``'
+                      tile
+                      height='64'
+                      :aria-label='$t(`common:header.language`)'
+                      )
                       v-icon(color='grey') mdi-web
                   span {{$t('common:header.language')}}
               v-list(nav)
@@ -113,10 +121,18 @@
 
           template(v-if='hasAnyPagePermissions && path && mode !== `edit`')
             v-menu(offset-y, bottom, transition='slide-y-transition', left)
-              template(v-slot:activator='{ on: menu }')
+              template(v-slot:activator='{ on: menu, attrs }')
                 v-tooltip(bottom)
                   template(v-slot:activator='{ on: tooltip }')
-                    v-btn(icon, v-on='{ ...menu, ...tooltip }', :class='$vuetify.rtl ? `ml-3` : ``', tile, height='64')
+                    v-btn(
+                      icon
+                      v-bind='attrs'
+                      v-on='{ ...menu, ...tooltip }'
+                      :class='$vuetify.rtl ? `ml-3` : ``'
+                      tile
+                      height='64'
+                      :aria-label='$t(`common:header.pageActions`)'
+                      )
                       v-icon(color='grey') mdi-file-document-edit-outline
                   span {{$t('common:header.pageActions')}}
               v-list(nav, :light='!$vuetify.theme.dark', :dark='$vuetify.theme.dark', :class='$vuetify.theme.dark ? `grey darken-4` : ``')
@@ -134,6 +150,9 @@
                 v-list-item.pl-4(@click='pageSource', v-if='mode !== `source` && hasReadSourcePermission')
                   v-list-item-avatar(size='24', tile): v-icon(color='indigo') mdi-code-tags
                   v-list-item-title.body-2 {{$t('common:header.viewSource')}}
+                v-list-item.pl-4(@click='pageConvert', v-if='hasWritePagesPermission')
+                  v-list-item-avatar(size='24', tile): v-icon(color='indigo') mdi-lightning-bolt
+                  v-list-item-title.body-2 {{$t('common:header.convert')}}
                 v-list-item.pl-4(@click='pageDuplicate', v-if='hasWritePagesPermission')
                   v-list-item-avatar(size='24', tile): v-icon(color='indigo') mdi-content-duplicate
                   v-list-item-title.body-2 {{$t('common:header.duplicate')}}
@@ -151,18 +170,39 @@
           template(v-if='hasNewPagePermission && path && mode !== `edit`')
             v-tooltip(bottom)
               template(v-slot:activator='{ on }')
-                v-btn(icon, tile, height='64', v-on='on', @click='pageNew')
+                v-btn(icon, tile, height='64', v-on='on', @click='pageNew', :aria-label='$t(`common:header.newPage`)')
                   v-icon(color='grey') mdi-text-box-plus-outline
               span {{$t('common:header.newPage')}}
+            v-divider(vertical)
+
+          //- ADMIN
+
+          template(v-if='isAuthenticated && isAdmin')
+            v-tooltip(bottom, v-if='mode !== `admin`')
+              template(v-slot:activator='{ on }')
+                v-btn(icon, tile, height='64', v-on='on', href='/a', :aria-label='$t(`common:header.admin`)')
+                  v-icon(color='grey') mdi-cog
+              span {{$t('common:header.admin')}}
+            v-btn(v-else, text, tile, height='64', href='/', :aria-label='$t(`common:actions.exit`)')
+              v-icon(left, color='grey') mdi-exit-to-app
+              span {{$t('common:actions.exit')}}
             v-divider(vertical)
 
           //- ACCOUNT
 
           v-menu(v-if='isAuthenticated', offset-y, bottom, min-width='300', transition='slide-y-transition', left)
-            template(v-slot:activator='{ on: menu }')
+            template(v-slot:activator='{ on: menu, attrs }')
               v-tooltip(bottom)
                 template(v-slot:activator='{ on: tooltip }')
-                  v-btn(icon, v-on='{ ...menu, ...tooltip }', :class='$vuetify.rtl ? `ml-0` : ``', tile, height='64')
+                  v-btn(
+                    icon
+                    v-bind='attrs'
+                    v-on='{ ...menu, ...tooltip }'
+                    :class='$vuetify.rtl ? `ml-0` : ``'
+                    tile
+                    height='64'
+                    :aria-label='$t(`common:header.account`)'
+                    )
                     v-icon(v-if='picture.kind === `initials`', color='grey') mdi-account-circle
                     v-avatar(v-else-if='picture.kind === `image`', :size='34')
                       v-img(:src='picture.url')
@@ -186,16 +226,13 @@
                 v-list-item-action: v-icon(color='blue-grey') mdi-face-profile
                 v-list-item-content
                   v-list-item-title(:class='$vuetify.theme.dark ? `blue-grey--text text--lighten-3` : `blue-grey--text`') {{$t('common:header.profile')}}
-              v-list-item(href='/a', v-if='isAuthenticated && isAdmin')
-                v-list-item-action.btn-animate-rotate: v-icon(:color='$vuetify.theme.dark ? `blue-grey lighten-3` : `blue-grey`') mdi-cog
-                v-list-item-title(:class='$vuetify.theme.dark ? `blue-grey--text text--lighten-3` : `blue-grey--text`') {{$t('common:header.admin')}}
               v-list-item(@click='logout')
                 v-list-item-action: v-icon(color='red') mdi-logout
                 v-list-item-title.red--text {{$t('common:header.logout')}}
 
           v-tooltip(v-else, left)
             template(v-slot:activator='{ on }')
-              v-btn(icon, v-on='on', color='grey darken-3', href='/login')
+              v-btn(icon, v-on='on', color='grey darken-3', href='/login', :aria-label='$t(`common:header.login`)')
                 v-icon(color='grey') mdi-account-circle
             span {{$t('common:header.login')}}
 
@@ -203,6 +240,7 @@
     page-selector(mode='move', v-model='movePageModal', :open-handler='pageMoveRename', :path='path', :locale='locale')
     page-selector(mode='create', v-model='duplicateOpts.modal', :open-handler='pageDuplicateHandle', :path='duplicateOpts.path', :locale='duplicateOpts.locale')
     page-delete(v-model='deletePageModal', v-if='path && path.length')
+    page-convert(v-model='convertPageModal', v-if='path && path.length')
 
     .nav-header-dev(v-if='isDevMode')
       v-icon mdi-alert
@@ -214,7 +252,6 @@
 <script>
 import { get, sync } from 'vuex-pathify'
 import _ from 'lodash'
-import Cookies from 'js-cookie'
 
 import movePageMutation from 'gql/common/common-pages-mutation-move.gql'
 
@@ -222,7 +259,8 @@ import movePageMutation from 'gql/common/common-pages-mutation-move.gql'
 
 export default {
   components: {
-    PageDelete: () => import('./page-delete.vue')
+    PageDelete: () => import('./page-delete.vue'),
+    PageConvert: () => import('./page-convert.vue')
   },
   props: {
     dense: {
@@ -241,6 +279,7 @@ export default {
       searchAdvMenuShown: false,
       newPageModal: false,
       movePageModal: false,
+      convertPageModal: false,
       deletePageModal: false,
       locales: siteLangs,
       isDevMode: false,
@@ -272,7 +311,7 @@ export default {
       if (this.pictureUrl && this.pictureUrl.length > 1) {
         return {
           kind: 'image',
-          url: this.pictureUrl
+          url: (this.pictureUrl === 'internal') ? `/_userav/${this.$store.get('user/id')}` : this.pictureUrl
         }
       } else {
         const nameParts = this.name.toUpperCase().split(' ')
@@ -320,6 +359,9 @@ export default {
     })
     this.$root.$on('pageMove', () => {
       this.pageMove()
+    })
+    this.$root.$on('pageConvert', () => {
+      this.pageConvert()
     })
     this.$root.$on('pageDuplicate', () => {
       this.pageDuplicate()
@@ -383,6 +425,9 @@ export default {
     pageDuplicateHandle ({ locale, path }) {
       window.location.assign(`/e/${locale}/${path}?from=${this.$store.get('page/id')}`)
     },
+    pageConvert () {
+      this.convertPageModal = true
+    },
     pageMove () {
       this.movePageModal = true
     },
@@ -428,8 +473,7 @@ export default {
       }
     },
     logout () {
-      Cookies.remove('jwt')
-      window.location.assign('/')
+      window.location.assign('/logout')
     },
     goHome () {
       window.location.assign('/')
